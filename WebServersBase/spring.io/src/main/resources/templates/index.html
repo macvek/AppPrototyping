@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Sample thymeleafs template</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<p>Hello</p>
+<p th:text="${viewmodel.name}">NameFromModel</p>
+
+<div>
+    <a th:href="${viewmodel.linkToHelp}">Get some static help</a> |
+    <a th:href="${viewmodel.linkToRest}">Access rest controller</a>
+</div>
+
+</body>
+
+</html>
