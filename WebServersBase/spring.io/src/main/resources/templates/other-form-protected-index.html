@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Form protected</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<p>Other form protected view</p>
+<form method="post" th:action="@{/other-form-protected/logout}">
+    <input type="submit" value="Other Logout (post required for CSRF)" />
+</form>
+</body>
+
+</html>

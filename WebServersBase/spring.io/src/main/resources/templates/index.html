@@ -11,10 +11,11 @@
 
 <p>Hello</p>
 <p th:text="${viewmodel.name}">NameFromModel</p>
-
 <div>
     <a th:href="${viewmodel.linkToHelp}">Get some static help</a> |
-    <a th:href="${viewmodel.linkToRest}">Access rest controller</a>
+    <a th:href="${viewmodel.linkToRest}">Access rest controller</a> |
+    <a th:href="${viewmodel.linkToFormProtected}">Access form protected |</a>
+    <a th:href="@{other-form-protected/index}">Access form protected</a>
 </div>
 
 </body>
