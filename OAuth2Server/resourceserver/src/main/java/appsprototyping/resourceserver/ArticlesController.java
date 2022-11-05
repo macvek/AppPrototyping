@@ -8,6 +8,6 @@ public class ArticlesController {
 
     @GetMapping("/articles")
     public String[] getArticles() {
-        return new String[] { "Article 1", "Article 2", "Article 3" };
+        return new String[] { "Article 1", "Article 2", "Article 3", "Article 4"  };
     }
 }
