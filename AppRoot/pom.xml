@@ -16,6 +16,7 @@
 
     <modules>
         <module>webserver</module>
+        <module>classpathcheck</module>
     </modules>
 
     <properties>
