@@ -1,6 +1,69 @@
 <!doctype html>
 <html>
-    <body>
-        Whatever
-    </body>
+<body>
+<button id="start" onclick="start()">start</button>
+<button id="stop" onclick="stop()">stop</button>
+<button id="sendMessage" onclick="sendMessage()">sendMessage</button>
+
+<div>
+    <span>Last message:</span><span id="message"></span>
+</div>
+<script>
+    var socket;
+
+    function start() {
+        socket = new WebSocket("ws://localhost:8080/messenger");
+        socket.addEventListener('open', onOpen);
+        socket.addEventListener('close', onClose);
+        socket.addEventListener('error', onError);
+        socket.addEventListener('message', onMessage);
+    }
+
+    function stop() {
+        socket.close();
+    }
+
+    function sendMessage() {
+        socket.send("Hello "+new Date().getTime());
+    }
+
+    function onMessage(e) {
+        document.getElementById('message').innerText = e.data;
+    }
+
+    function onError(e) {
+        console.log("Got error", e);
+    }
+
+    function onOpen() {
+        toggleButtons(true);
+    }
+
+    function onClose() {
+        toggleButtons(false);
+    }
+
+    function toggleButtons(connected) {
+        if (connected) {
+            disable(document.getElementById('start'));
+            enable(document.getElementById('stop'));
+            enable(document.getElementById('sendMessage'));
+        }
+        else {
+            enable(document.getElementById('start'));
+            disable(document.getElementById('stop'));
+            disable(document.getElementById('sendMessage'));
+        }
+
+        function disable(what) {
+            what.setAttribute('disabled', 'disabled');
+        }
+
+        function enable(what) {
+            what.removeAttribute('disabled');
+        }
+    }
+
+</script>
+</body>
 </html>

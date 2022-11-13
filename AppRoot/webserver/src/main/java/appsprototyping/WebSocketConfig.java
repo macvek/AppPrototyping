@@ -1,4 +1,4 @@
-package appsprototyping.controllers;
+package appsprototyping;
 
 import appsprototyping.MyWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
