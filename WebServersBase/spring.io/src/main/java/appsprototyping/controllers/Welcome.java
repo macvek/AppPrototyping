@@ -2,6 +2,7 @@ package appsprototyping.controllers;
 
 import appsprototyping.model.SampleEntry;
 import appsprototyping.repository.SampleEntryRepository;
+import appsprototyping.services.JustService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,16 @@ public class Welcome {
 
     @Autowired
     private SampleEntryRepository entryRepository;
+
+    @Autowired
+    private JustService justService;
+
+    @GetMapping("/hittransaction")
+    public String hitTransaction() throws Exception {
+        justService.anyPublicOperation();
+        justService.otherTransaction();
+        return "OK";
+    }
 
     @GetMapping("/welcome")
     public String welcome() {
