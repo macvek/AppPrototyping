@@ -1,3 +1,28 @@
+
+fun typeSafeBuilderCheck() {
+    class BuildSbj {
+
+        var myVal : String = "not changed"
+
+        fun execute() {
+            println("I have val of $myVal")
+        }
+    }
+
+    fun buildSbj( inContext : BuildSbj.() -> Unit) : BuildSbj {
+        val receiver = BuildSbj()
+        receiver.inContext()
+        return receiver;
+    }
+
+    buildSbj {
+        myVal = "New one"
+        execute()
+    }
+
+}
+
+
 class FunWithClasses(val constructorInt : Int) {
     val propInt : Int
         get() = constructorInt * 2
@@ -34,9 +59,17 @@ fun funWithObject() {
     println(someObj.hello)
 }
 
+object ImASingleton {
+    fun whatever() {
+        println("named object is implicit singleton")
+    }
+}
 
 fun onTheFun() {
     val withClass = FunWithClasses(2)
+
+    val checkPrivAccess: FunWithClasses.() -> Unit = { this.changeVal("I Cannot access private variable") }
+
     println(withClass.propInt)
     println(withClass.otherProp)
     println(withClass.privateGetterPublicSetter)
@@ -46,6 +79,9 @@ fun onTheFun() {
     withClass.setupImLate("Yo")
     withClass.setupImLate("YoYo")
     funWithObject()
+
+    withClass.checkPrivAccess()
+    println(withClass.privateGetterPublicSetter)
 }
 
 fun main(args: Array<String>) {
@@ -101,6 +137,28 @@ fun main(args: Array<String>) {
     typeCheck(1)
 
     onTheFun()
+    ImASingleton.whatever()
+
+    val lmbd = { a:Int, b:Int -> a*b }
+    println(lmbd(2,3))
+
+    val ltrld = fun(a : Int, b:Int) : Int { return a*b }
+    println (ltrld(3,4))
+
+    val repeatFun: String.(Int) -> String = { t -> this.repeat(t)}
+    println("xO".repeatFun(10))
+
+
+    fun iGetIntAndLambda(a : Int, b: (Int) -> Int) : Int {
+        return b(a);
+    }
+
+    println("INLINED IT: "+iGetIntAndLambda(2, { 2*it }))
+    println("DEFINED ARG: "+iGetIntAndLambda(2, { t -> 3*t }))
+    println("TRAILING LAMBDA: "+iGetIntAndLambda(2) {4 * it})
+    println("DON'T CARE VARIABLE using _: "+iGetIntAndLambda(2) {_ -> 1234})
+
+    typeSafeBuilderCheck()
 }
 
 fun typeCheck(s : Any) {
