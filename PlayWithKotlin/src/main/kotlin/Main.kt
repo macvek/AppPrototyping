@@ -159,6 +159,8 @@ fun main(args: Array<String>) {
     println("DON'T CARE VARIABLE using _: "+iGetIntAndLambda(2) {_ -> 1234})
 
     typeSafeBuilderCheck()
+    val following = PartWithCoroutines()
+    following.proceed()
 }
 
 fun typeCheck(s : Any) {
