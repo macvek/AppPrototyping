@@ -8,3 +8,7 @@
 plugins {
     id("samplepluginproject.greeting")
 }
+
+MyExtension {
+    value = "GREAT NOW EXTENSION WORKS"
+}

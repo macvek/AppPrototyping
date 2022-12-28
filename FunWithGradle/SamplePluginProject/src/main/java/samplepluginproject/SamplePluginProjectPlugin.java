@@ -12,8 +12,11 @@ import org.gradle.api.Plugin;
 public class SamplePluginProjectPlugin implements Plugin<Project> {
     public void apply(Project project) {
         // Register a task
+        MyExtension myExtension = project.getExtensions().create("MyExtension", MyExtension.class);
         project.getTasks().register("greeting", task -> {
-            task.doLast(s -> System.out.println("Hello from plugin 'samplepluginproject.greeting'"));
+            task.doLast(s -> {
+                System.out.println("Hello from plugin 'samplepluginproject.greeting' "+myExtension.getValue());
+            });
         });
     }
 }
