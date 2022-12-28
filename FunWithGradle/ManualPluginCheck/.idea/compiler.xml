@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.6">
+      <module name="SamplePluginProject.plugin" target="17" />
+      <module name="SamplePluginProject.plugin.functionalTest" target="17" />
+      <module name="SamplePluginProject.plugin.main" target="17" />
+      <module name="SamplePluginProject.plugin.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
