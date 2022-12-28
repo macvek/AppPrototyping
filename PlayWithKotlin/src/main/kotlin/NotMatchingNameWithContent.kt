@@ -1,4 +1,5 @@
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlin.system.measureTimeMillis
 
 class PartWithCoroutines {
@@ -38,6 +39,7 @@ class PartWithCoroutines {
 
         println("And exec using aggegrated context ${execTwoOthers()}");
         followup()
+        someFlows()
     }
 
     suspend fun firstBlocking() : String{
@@ -72,4 +74,28 @@ class PartWithCoroutines {
             println("main runBlocking: After delay in thread ${Thread.currentThread().name}")
         }
     }
+
+    fun someFlows() = runBlocking {
+        launch {
+            println("In code 1");
+            delay(100)
+            println("In code 2");
+            delay(100)
+        }
+        println("Getting ints")
+        val someInts = flowOfInts()
+        someInts.collect() { i -> println("Each of flow $i")}
+
+        val only2Ints = flowOfInts()
+        only2Ints.take(2).collect() { i -> println("Each of flow $i")}
+    }
+
+    fun flowOfInts() : Flow<Int> = flow {
+        for (v in 1..5) {
+            delay(50)
+            emit(v)
+        }
+
+    }
+
 }
