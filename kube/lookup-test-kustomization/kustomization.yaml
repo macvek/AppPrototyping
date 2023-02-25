@@ -1,0 +1,5 @@
+#more about kustomization here: https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/
+
+resources:
+- lookup-test-kustomization-deployment.yaml
+- lookup-test-kustomization-service.yaml

@@ -79,3 +79,6 @@ kubectl get endpoints
 
 #execute combined instruction
 kubectl apply -f lookup-test-combined.yaml
+
+#execute kustomization directory
+kubectl apply -k ./lookup-test-kustomization

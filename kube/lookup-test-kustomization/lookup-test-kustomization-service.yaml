@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lookup-test-kustomization
+
+spec:
+  selector:
+    app: lookup-test-kustomization
+  ports:
+  - port: 19000
+    targetPort: 80
+  type: LoadBalancer

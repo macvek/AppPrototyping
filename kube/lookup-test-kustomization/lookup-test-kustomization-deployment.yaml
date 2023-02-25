@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lookup-test-kustomization
+  labels:
+    app: lookup-test-kustomization
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lookup-test-kustomization
+  template:
+    metadata:
+      labels:
+        app: lookup-test-kustomization
+    spec:
+      containers: 
+      - name: client-container
+        image: php-kube-lookup:minikube
+        ports: 
+        - containerPort: 80
+        env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+
