@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: lookup-test
+  labels:
+    withPodService: yesPlease
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      withPodService: yesPlease
+  template:
+    metadata:
+      labels:
+        withPodService: yesPlease
+    spec:
+    #I've left only few properties; in lookup-test-pod.yaml is full set of env and file injection
+      containers:
+      - name: client-container
+        image: php-kube-lookup:minikube
+        ports: 
+        - containerPort: 80
+        env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name

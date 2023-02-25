@@ -39,3 +39,15 @@ kubectl apply -f apply lookup-test-podservice.yaml # to create sibling service f
 
 curl http://localhost:18080/ | grep "MY_POD_NAME =>" # multiple times should show both nodes being served
 kubectl delete pod/lookup-test # delete single node, so only sibling is served
+
+## AFTER CREATING ALREADY 2 PODS manually + replica set with 3 expected nodes, only a single one is created
+# lookup-test                       1/1     Running   0            2m21s
+# lookup-test-sibling               1/1     Running   0            2m18s
+# lookup-test-tfnt6                 1/1     Running   0            6s
+## service automatically shows this file already
+
+
+kubectl get replicasets # shows newly created replicaset
+kubectl scale rs lookup-test --replicas=4 # create yet another pod
+kubectl scale rs lookup-test --replicas=1 # scales down, this one can shutdown also manually created pod
+## now only one is left
