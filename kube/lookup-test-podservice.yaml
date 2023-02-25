@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lookup-test-service
+
+spec:
+  selector:
+    withPodService: yesPlease
+  ports:
+  - port: 18080
+    targetPort: 80
+  type: LoadBalancer

@@ -1,9 +1,8 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: lookup-test
+  name: lookup-test-sibling
   labels:
-    run: lookup-test
     withPodService: yesPlease
 spec:
   containers:

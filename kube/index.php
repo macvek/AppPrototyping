@@ -4,6 +4,8 @@
 <body>
     <h1>PHP kubernates lookup</h1>
 
+    <h2>Hostname: <?php echo gethostname(); ?></h2>
+
     <h2>Showing environment values:</h2>
     <pre>
 <?php
