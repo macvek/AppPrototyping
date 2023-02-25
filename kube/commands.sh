@@ -1,3 +1,6 @@
+#!/bin/echo
+## ^^ don't run me, just read me Dear Developer
+
 docker run --rm -it --name=PhpDev -p 8080:80 php:8.1.16-apache
 docker exec -it PhpDev /bin/bash
 
@@ -22,6 +25,9 @@ minikube image list
 #SIC!! - image-pull-policy is required for :latest, therefore use other tag for local
 
 kubectl run lookup-test --image=php-kube-lookup:minikube --port=80
+#create service for pod
+kubectl expose pod lookup-test --type=LoadBalancer --target-port=80 --port=8080
+
 kubectl exec lookup-test -ti -- /bin/bash
 
 docker pull busybox:1.35
@@ -51,3 +57,19 @@ kubectl get replicasets # shows newly created replicaset
 kubectl scale rs lookup-test --replicas=4 # create yet another pod
 kubectl scale rs lookup-test --replicas=1 # scales down, this one can shutdown also manually created pod
 ## now only one is left
+
+#expose replicaset 
+kubectl expose replicaset lookup-test --type=LoadBalancer --target-port=80 --port=28080
+
+#created deployment
+kubectl create deployment lookup-test-deploy --image=php-kube-lookup:minikube --port=80
+# deployments creates automatically replicaset and nodes and handled redeployment on update by rolling update
+# i.e. once image is changed (and maybe other props to) it creates new replicaset with new images
+# and automatically shutsdown previous replicaset
+
+kubectl expose deployment lookup-test-deploy --type=LoadBalancer --target-port=80 --port=10080
+kubectl delete service lookup-test-deploy ## 10080 is considered unsafe ;)
+kubectl expose deployment lookup-test-deploy --type=LoadBalancer --target-port=80 --port=11088
+
+kubectl apply -f lookup-test-deploy.yaml
+kubectl expose deployment lookup-test-deploy-yamled --type=LoadBalancer --target-port=80 --port=12088

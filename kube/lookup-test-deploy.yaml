@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lookup-test-deploy-yamled
+  labels:
+    app: test-deploy
+spec:
+  replicas: 3 ## it is the same as from ./lookup-test-replicaset.yaml
+  selector:
+    matchLabels:
+      app: test-deploy
+  template:
+    metadata:
+      labels:
+        app: test-deploy
+    spec:
+      containers: 
+      - name: client-container
+        image: php-kube-lookup:minikube
+        ports: 
+        - containerPort: 80
+        env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
