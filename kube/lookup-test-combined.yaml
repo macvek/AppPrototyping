@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lookup-test-combined
+  labels:
+    app: lookup-test-combined
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lookup-test-combined
+  template:
+    metadata:
+      labels:
+        app: lookup-test-combined
+    spec:
+      containers: 
+      - name: client-container
+        image: php-kube-lookup:minikube
+        ports: 
+        - containerPort: 80
+        env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lookup-test-combined
+
+spec:
+  selector:
+    app: lookup-test-combined
+  ports:
+  - port: 9000
+    targetPort: 80
+  type: LoadBalancer

@@ -73,3 +73,9 @@ kubectl expose deployment lookup-test-deploy --type=LoadBalancer --target-port=8
 
 kubectl apply -f lookup-test-deploy.yaml
 kubectl expose deployment lookup-test-deploy-yamled --type=LoadBalancer --target-port=80 --port=12088
+
+## display endpoints
+kubectl get endpoints
+
+#execute combined instruction
+kubectl apply -f lookup-test-combined.yaml
