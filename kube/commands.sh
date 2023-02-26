@@ -82,3 +82,14 @@ kubectl apply -f lookup-test-combined.yaml
 
 #execute kustomization directory
 kubectl apply -k ./lookup-test-kustomization
+
+## from https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/ ##
+#create a pod with a domain and subdomain
+kubectl apply -f domain-name-test.yaml
+
+kubectl exec busybox1 -ti -- /bin/sh
+# inside 
+hostname -f # >> busybox-1.busybox-subdomain.default.svc.cluster.local
+nslookup -type=srv busybox-1.busybox-subdomain.default.svc.cluster.local
+# >>busybox-1.busybox-subdomain.default.svc.cluster.local   service = 0 100 1234 busybox-1.busybox-subdomain.default.svc.cluster.local
+
