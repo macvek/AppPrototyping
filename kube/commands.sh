@@ -93,3 +93,26 @@ hostname -f # >> busybox-1.busybox-subdomain.default.svc.cluster.local
 nslookup -type=srv busybox-1.busybox-subdomain.default.svc.cluster.local
 # >>busybox-1.busybox-subdomain.default.svc.cluster.local   service = 0 100 1234 busybox-1.busybox-subdomain.default.svc.cluster.local
 
+#https://kubernetes.io/docs/concepts/storage/volumes
+#https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+
+minikube ssh
+sudo mkdir /mnt/data
+# create file /mnt/data/index.html with any message
+
+kubectl -f task-pv-volume.yaml
+kubectl get persistentvolumes
+
+kubectl -f task-pv-claim.yaml
+kubectl get persistentvolumeclaims
+kubectl get persistentvolumes
+
+kubectl -f task-pv-pod.yaml
+kubectl exec -it task-pv-pod -- /bin/bash
+cat /usr/share/nginx/html/index.html # should show bound file
+
+kubectl expose pod task-pv-pod --type=LoadBalancer --target-port=80 --port=21080
+## ++ requires: minikube tunnel
+
+curl http://localhost:21080
+# after changing file via minikube ssh ; sudo vi /mnt/data/index.html; changes are reflected
